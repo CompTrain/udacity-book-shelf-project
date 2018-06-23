@@ -22,10 +22,8 @@ class WantToRead extends React.Component {
                                                     this.props.moveBook(event, book)
                                                 }}>
                                                     <option value="" disabled>Move to...</option>
-                                                    <option defaultValue=""></option>
-                                                    <option value="currentlyReading">Currently
-                                                        Reading
-                                                    </option>
+                                                    <option value="currentlyReading">Currently Reading</option>
+                                                    <option value="wantToRead" selected={true}>Want To Read</option>
                                                     <option value="read">Read</option>
                                                     <option value="none">None</option>
                                                 </select>
