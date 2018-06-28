@@ -12,15 +12,18 @@ class BooksApp extends React.Component {
         books: []
     };
 
-    async componentDidMount() {
+    componentDidMount() {
         BooksAPI.getAll().then((books) => {
             this.setState(() => {
                 return { books: books };
             });
         });
-    }
+    };
 
     moveBook = async (event, book) => {
+
+        console.log(event.target.value);
+
         const newShelf = event.target.value;
         let books = [ ...this.state.books ];
 
@@ -61,14 +64,18 @@ class BooksApp extends React.Component {
                                     moveBook={this.moveBook}
                                 />
                             </div>
+
+                            <div className="open-search">
+                                <Link to='/search'>Add a book</Link>
+                            </div>
                         </div>
-                        <div className="open-search">
-                            <Link to='/search'>Add a book</Link>
-                        </div>
+
                     </div>
                 )} />
 
-                <Route exact path='/search' component={Search}/>
+                <Route exact path='/search' render={() => (
+                    <Search books={this.state.books} moveBook={this.moveBook} />
+                )}/>
             </div>
         )
     }

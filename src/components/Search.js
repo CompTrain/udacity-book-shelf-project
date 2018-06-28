@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../utils/BooksAPI';
+import find from 'array.prototype.find';
 
 class Search extends React.Component {
 
@@ -31,39 +32,54 @@ class Search extends React.Component {
                 books = [];
             }
 
-            this.setState(() => {
-                return { bookResults: books };
+            this.setState({
+                bookResults: books
             });
         });
     };
 
+    checkIfBookIsOnAShelf = (bookList, bookResult) => {
+        let dropdownSelectedValue = '';
+
+        if (bookList.length > 0) {
+            dropdownSelectedValue = find(bookList, book => book.id === bookResult.id);
+
+            if (dropdownSelectedValue) {
+                dropdownSelectedValue = dropdownSelectedValue.shelf;
+            } else {
+                dropdownSelectedValue = 'none';
+            }
+        } else {
+            dropdownSelectedValue = 'none';
+        }
+
+        return dropdownSelectedValue;
+    };
+
     render() {
-        const bookResults = (this.state.bookResults) ? this.state.bookResults : [];
+        const bookList = this.props.books;
 
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <Link to='/' className="close-search">Close</Link>
+                    <Link onClick={this.forceUpdate} to='/' className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
-
                         <input
                             type="text"
                             placeholder="Search by title or author"
                             onChange={(event) => this.handleInputChange(event)}
                         />
-
                     </div>
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        { bookResults.map((book) => {
+                        { this.state.bookResults.map((bookResult) => {
+                            const authors = (bookResult.authors) ? bookResult.authors.join(' | ') : '';
+                            const thumbnail = (bookResult.imageLinks && bookResult.imageLinks.thumbnail) ? bookResult.imageLinks.thumbnail : '';
 
-                            console.log(book);
+                            let dropdownSelectedValue = this.checkIfBookIsOnAShelf(bookList, bookResult);
 
-                            const authors = (book.authors) ? book.authors.join(' | ') : '';
-                            const thumbnail = (book.imageLinks && book.imageLinks.thumbnail) ? book.imageLinks.thumbnail : '';
-
-                            return <li key={book.id}>
+                            return <li key={bookResult.id}>
                                 <div className="book">
                                     <div className="book-top">
                                         <div className="book-cover" style={{
@@ -72,7 +88,7 @@ class Search extends React.Component {
                                             backgroundImage: 'url(' + thumbnail + ')'
                                         }}></div>
                                         <div className="book-shelf-changer">
-                                            <select onChange={(event) => {this.props.moveBook(event, book)}}>
+                                            <select onChange={(event) => {this.props.moveBook(event, bookResult)}} defaultValue={dropdownSelectedValue}>
                                                 <option value="" disabled>Move to...</option>
                                                 <option value="currentlyReading">Currently Reading</option>
                                                 <option value="wantToRead">Want To Read</option>
@@ -81,7 +97,7 @@ class Search extends React.Component {
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="book-title">{book.title}</div>
+                                    <div className="book-title">{bookResult.title}</div>
                                     <div className="book-authors">{authors}</div>
                                 </div>
                             </li>

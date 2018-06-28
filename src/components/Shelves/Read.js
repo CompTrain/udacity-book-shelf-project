@@ -2,9 +2,6 @@ import React from 'react';
 
 class Read extends React.Component {
     render() {
-
-        console.log(this.props);
-
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">Read</h2>
@@ -21,11 +18,11 @@ class Read extends React.Component {
                                                 backgroundImage: 'url(' + book.imageLinks.thumbnail + ')'
                                             }}></div>
                                             <div className="book-shelf-changer">
-                                                <select onChange={(event) => {this.props.moveBook(event, book)}}>
+                                                <select onChange={(event) => {this.props.moveBook(event, book)}} defaultValue="read">
                                                     <option value="" disabled>Move to...</option>
                                                     <option value="currentlyReading">Currently Reading</option>
                                                     <option value="wantToRead">Want To Read</option>
-                                                    <option value="read" selected={true}>Read</option>
+                                                    <option value="read">Read</option>
                                                     <option value="none">None</option>
                                                 </select>
                                             </div>

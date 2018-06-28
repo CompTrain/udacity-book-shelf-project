@@ -18,9 +18,9 @@ class CurrentlyReading extends React.Component {
                                                 backgroundImage: 'url(' + book.imageLinks.thumbnail + ')'
                                             }}></div>
                                             <div className="book-shelf-changer">
-                                                <select onChange={(event) => {this.props.moveBook(event, book)}}>
+                                                <select onChange={(event) => {this.props.moveBook(event, book)}} defaultValue="currentlyReading">
                                                     <option value="" disabled>Move to...</option>
-                                                    <option value="currentlyReading" selected={true}>Currently Reading</option>
+                                                    <option value="currentlyReading">Currently Reading</option>
                                                     <option value="wantToRead">Want To Read</option>
                                                     <option value="read">Read</option>
                                                     <option value="none">None</option>

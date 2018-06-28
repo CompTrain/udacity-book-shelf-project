@@ -18,12 +18,10 @@ class WantToRead extends React.Component {
                                                 backgroundImage: 'url(' + book.imageLinks.thumbnail + ')'
                                             }}></div>
                                             <div className="book-shelf-changer">
-                                                <select onChange={(event) => {
-                                                    this.props.moveBook(event, book)
-                                                }}>
+                                                <select onChange={(event) => {this.props.moveBook(event, book)}} defaultValue="wantToRead">
                                                     <option value="" disabled>Move to...</option>
                                                     <option value="currentlyReading">Currently Reading</option>
-                                                    <option value="wantToRead" selected={true}>Want To Read</option>
+                                                    <option value="wantToRead">Want To Read</option>
                                                     <option value="read">Read</option>
                                                     <option value="none">None</option>
                                                 </select>
