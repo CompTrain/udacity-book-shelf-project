@@ -12,6 +12,9 @@ class BooksApp extends React.Component {
         books: []
     };
 
+    /**
+     * When the component mounts, get all of our books.
+     */
     componentDidMount() {
         BooksAPI.getAll().then((books) => {
             this.setState(() => {
@@ -20,10 +23,14 @@ class BooksApp extends React.Component {
         });
     };
 
+    /**
+     * Move the selected book to the targeted shelf.
+     *
+     * @param event
+     * @param book
+     * @returns {Promise<void>}
+     */
     moveBook = async (event, book) => {
-
-        console.log(event.target.value);
-
         const newShelf = event.target.value;
         let books = [ ...this.state.books ];
 

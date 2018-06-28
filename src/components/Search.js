@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../utils/BooksAPI';
+
+// Needed to handle the polyfill for Array.prototype.find as the react-starter-app
+// doesn't support some experimental ES6 features.
 import find from 'array.prototype.find';
 
 class Search extends React.Component {
@@ -10,6 +13,13 @@ class Search extends React.Component {
         bookResults: []
     };
 
+    /**
+     * Will fire whenever the search bar input changes.
+     * We will want to search the books by keyword and then empty
+     * out the list if there is no search query.
+     *
+     * @param event
+     */
     handleInputChange = (event) => {
         const searchValue = event.target.value;
 
@@ -26,6 +36,10 @@ class Search extends React.Component {
         });
     };
 
+    /**
+     * Search against the Books API for the search query and set
+     * the bookResults state to the books that are returned.
+     */
     searchBooks = () => {
         BooksAPI.search(this.state.searchQuery).then((books) => {
             if (books.error === 'empty query') {
@@ -38,6 +52,14 @@ class Search extends React.Component {
         });
     };
 
+    /**
+     * Checks to see if the current book we are iterating over is on one of the book shelves
+     * that we have on our frontpage.  If it is, then return the shelf that the book is currently on.
+     *
+     * @param bookList
+     * @param bookResult
+     * @returns {*|string}
+     */
     checkIfBookIsOnAShelf = (bookList, bookResult) => {
         let dropdownSelectedValue = '';
 
@@ -57,8 +79,6 @@ class Search extends React.Component {
     };
 
     render() {
-        const bookList = this.props.books;
-
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -77,7 +97,7 @@ class Search extends React.Component {
                             const authors = (bookResult.authors) ? bookResult.authors.join(' | ') : '';
                             const thumbnail = (bookResult.imageLinks && bookResult.imageLinks.thumbnail) ? bookResult.imageLinks.thumbnail : '';
 
-                            let dropdownSelectedValue = this.checkIfBookIsOnAShelf(bookList, bookResult);
+                            let dropdownSelectedValue = this.checkIfBookIsOnAShelf(this.props.books, bookResult);
 
                             return <li key={bookResult.id}>
                                 <div className="book">
