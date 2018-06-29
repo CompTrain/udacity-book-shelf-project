@@ -32,14 +32,15 @@ class BooksApp extends React.Component {
      */
     moveBook = async (event, book) => {
         const newShelf = event.target.value;
-        let books = [ ...this.state.books ];
 
-        for (let i = 0; i < books.length; i++) {
-            if (books[i].id === book.id) {
-                books[i].shelf = newShelf;
-                break;
+        let books = this.state.books.reduce((accumulator, bookOnShelf) => {
+            if (bookOnShelf.id === book.id) {
+                bookOnShelf.shelf = newShelf;
             }
-        }
+
+            accumulator.push(bookOnShelf);
+            return accumulator;
+        }, []);
 
         this.setState(() => ({
             books: books
