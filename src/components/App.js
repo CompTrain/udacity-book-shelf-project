@@ -2,9 +2,7 @@ import React from 'react'
 import { Route, Link } from 'react-router-dom';
 import * as BooksAPI from '../utils/BooksAPI';
 import Search from './Search';
-import CurrentlyReadingShelf from './Shelves/CurrentlyReading';
-import WantToReadShelf from './Shelves/WantToRead';
-import ReadShelf from './Shelves/Read';
+import Shelf from './Shelf';
 import './App.css';
 
 class BooksApp extends React.Component {
@@ -59,17 +57,23 @@ class BooksApp extends React.Component {
                         </div>
                         <div className="list-books-content">
                             <div>
-                                <CurrentlyReadingShelf
+                                <Shelf
                                     books={this.state.books}
                                     moveBook={this.moveBook}
+                                    shelfTitle='Currently Reading'
+                                    shelfTitleShort='currentlyReading'
                                 />
-                                <WantToReadShelf
+                                <Shelf
                                     books={this.state.books}
                                     moveBook={this.moveBook}
+                                    shelfTitle='Want To Read'
+                                    shelfTitleShort='wantToRead'
                                 />
-                                <ReadShelf
+                                <Shelf
                                     books={this.state.books}
                                     moveBook={this.moveBook}
+                                    shelfTitle='Read'
+                                    shelfTitleShort='read'
                                 />
                             </div>
 
